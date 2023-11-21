@@ -1,36 +1,36 @@
 import React, { useState } from "react";
 import { View, Text, Button, Modal } from "react-native";
+import {
+	BannerAd,
+	BannerAdSize,
+	TestIds,
+} from "react-native-google-mobile-ads";
 import { Centered, ModalView } from "./HomeScreen.styles";
+import ButtonAd from "../../components/ButtonAd";
+
+const adUnitId = __DEV__
+	? TestIds.BANNER
+	: "ca-app-pub-0000000000000000/000000000";
 
 const HomeScreen: React.FC = () => {
-	const [isModalVisible, setModalVisible] = useState(false);
-
-	const toggleModal = () => {
-		setModalVisible(!isModalVisible);
-	};
-
 	return (
-		<View style={{ flex: 1 }}>
+		<View
+			style={{
+				flex: 1,
+				display: "flex",
+				flexDirection: "column",
+				justifyContent: "space-around",
+			}}
+		>
 			<Text>Ad Screen</Text>
-			<Button title="View Ad" onPress={toggleModal} />
-			<Modal
-				visible={isModalVisible}
-				animationType="slide"
-				presentationStyle="overFullScreen"
-				statusBarTranslucent={true}
-				hardwareAccelerated={true}
-			>
-				{/* <Centered> */}
-				<ModalView>
-					<Text>Ad Confirmation Modal</Text>
-					<Button
-						title="Confirm"
-						onPress={() => console.log("logic to show admob")}
-					/>
-					<Button title="Cancel" onPress={toggleModal} />
-				</ModalView>
-				{/* </Centered> */}
-			</Modal>
+
+			<ButtonAd />
+
+			<BannerAd
+				unitId={adUnitId}
+				size={BannerAdSize.FULL_BANNER}
+				requestOptions={{ requestNonPersonalizedAdsOnly: true }}
+			/>
 		</View>
 	);
 };
