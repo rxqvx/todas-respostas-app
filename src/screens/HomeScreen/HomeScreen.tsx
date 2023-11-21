@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Button, Modal } from "react-native";
 import { Centered, ModalView } from "./HomeScreen.styles";
+import ButtonAd from "../../components/ButtonAd";
 
 const HomeScreen: React.FC = () => {
 	const [isModalVisible, setModalVisible] = useState(false);
@@ -20,17 +21,15 @@ const HomeScreen: React.FC = () => {
 				statusBarTranslucent={true}
 				hardwareAccelerated={true}
 			>
-				{/* <Centered> */}
-				<ModalView>
-					<Text>Ad Confirmation Modal</Text>
-					<Button
-						title="Confirm"
-						onPress={() => console.log("logic to show admob")}
-					/>
-					<Button title="Cancel" onPress={toggleModal} />
-				</ModalView>
-				{/* </Centered> */}
+				<Centered>
+					<ModalView>
+						<Text>Ad Confirmation Modal</Text>
+
+						<Button title="Cancel" onPress={toggleModal} />
+					</ModalView>
+				</Centered>
 			</Modal>
+			<ButtonAd />
 		</View>
 	);
 };
