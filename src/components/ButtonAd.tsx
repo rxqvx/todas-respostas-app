@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "react-native";
+import { Button, Text } from "react-native";
 import {
 	RewardedAd,
 	RewardedAdEventType,
@@ -12,10 +12,14 @@ const adUnitId = __DEV__
 
 const rewarded = RewardedAd.createForAdRequest(adUnitId, {
 	requestNonPersonalizedAdsOnly: true,
-	keywords: ["fashion", "clothing"],
+	keywords: ["cash", "money"],
 });
 
-export default function ButtonAd() {
+export default function ButtonAd({
+	onReward,
+}: {
+	onReward?: (reward: { amount: number; type: string }) => void;
+}) {
 	const [loaded, setLoaded] = useState(false);
 
 	useEffect(() => {
@@ -28,6 +32,7 @@ export default function ButtonAd() {
 		const unsubscribeEarned = rewarded.addAdEventListener(
 			RewardedAdEventType.EARNED_REWARD,
 			(reward) => {
+				if (onReward) onReward(reward);
 				console.log("User earned reward of ", reward);
 			}
 		);
@@ -40,18 +45,31 @@ export default function ButtonAd() {
 			unsubscribeLoaded();
 			unsubscribeEarned();
 		};
-	}, []);
+	}, [rewarded]);
 
 	// No advert ready to show yet
 	if (!loaded) {
-		return null;
+		rewarded.load();
+
+		return (
+			<>
+				<Text>
+					Nenhum anúncio pronto para exibição ainda, carregando...
+				</Text>
+			</>
+		);
 	}
 
 	return (
 		<Button
 			title="Show Rewarded Ad"
 			onPress={() => {
-				rewarded.show();
+				try {
+					rewarded.load();
+					rewarded.show();
+				} catch (err) {
+					console.log("error:", err);
+				}
 			}}
 		/>
 	);

@@ -11,6 +11,12 @@ import JoinScreen from "./src/screens/JoinScreen";
 import HomeScreen from "./src/screens/HomeScreen/HomeScreen";
 import InfoScreen from "./src/screens/InfoScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
+import GameScreen from "./src/screens/GameScreen/GameScreen";
+
+export type RootStackParamList = {
+	HomeScreen: undefined;
+	GameScreen: undefined;
+};
 
 const App: React.FC = () => {
 	const [showRegisterForm, setShowRegisterForm] = useState<boolean>(false);
@@ -44,26 +50,29 @@ const Tab = createBottomTabNavigator();
 const BottomTabNavigatorScreen: React.FC = () => {
 	return (
 		<Tab.Navigator>
-			<Tab.Screen name="Ad" component={HomeScreen} />
+			<Tab.Screen name="Ad" component={HomeNavigator} />
 			<Tab.Screen name="Info" component={InfoScreen} />
 			<Tab.Screen name="Profile" component={ProfileScreen} />
 		</Tab.Navigator>
 	);
 };
 
-// const PublicNavigator = () => {
-// 	return (
-// 		<NavigationContainer>
-// 			<Stack.Navigator initialRouteName="RegistrationForm">
-// 				<Stack.Screen
-// 					name="RegistrationForm"
-// 					component={RegisterScreen}
-// 					options={{ headerShown: false }}
-// 				/>
-// 			</Stack.Navigator>
-// 		</NavigationContainer>
-// 	);
-// };
+const HomeNavigator = () => {
+	return (
+		<Stack.Navigator initialRouteName="HomeScreen">
+			<Stack.Screen
+				name="HomeScreen"
+				component={HomeScreen}
+				options={{ headerShown: false }}
+			/>
+			<Stack.Screen
+				name="GameScreen"
+				component={GameScreen}
+				options={{ headerShown: false }}
+			/>
+		</Stack.Navigator>
+	);
+};
 
 const styles = StyleSheet.create({
 	wrapper: {},
